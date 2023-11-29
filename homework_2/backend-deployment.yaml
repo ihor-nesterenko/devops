@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --file compose.yaml convert
+    kompose.version: 1.31.2 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: backend
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: backend
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose --file compose.yaml convert
+        kompose.version: 1.31.2 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/dockerawesome-composemasternginx-golang-postgres-default: "true"
+        io.kompose.service: backend
+    spec:
+      containers:
+        - image: backend
+          name: backend
+          resources: {}
+          volumeMounts:
+            - mountPath: /run/secrets/db-password
+              name: db-password
+      restartPolicy: Always
+      volumes:
+        - name: db-password
+          secret:
+            items:
+              - key: db-password
+                path: db-password
+            secretName: db-password
+status: {}
