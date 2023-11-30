@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose --file compose.yaml convert
+    kompose.cmd: kompose convert
     kompose.version: 1.31.2 (HEAD)
   creationTimestamp: null
   labels:
@@ -18,11 +18,11 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose --file compose.yaml convert
+        kompose.cmd: kompose convert
         kompose.version: 1.31.2 (HEAD)
       creationTimestamp: null
       labels:
-        io.kompose.network/dockerawesome-composemasternginx-golang-postgres-default: "true"
+        io.kompose.network/homework-2-default: "true"
         io.kompose.service: proxy
     spec:
       containers:
@@ -34,13 +34,15 @@ spec:
               protocol: TCP
           resources: {}
           volumeMounts:
-            - mountPath: /etc/nginx/conf.d/default.conf
-              name: proxy-claim0
+            - mountPath: /etc/nginx/conf.d
+              name: proxy-configmap
               readOnly: true
       restartPolicy: Always
       volumes:
-        - name: proxy-claim0
-          persistentVolumeClaim:
-            claimName: proxy-claim0
-            readOnly: true
+        - name: proxy-configmap
+          configMap:
+            name: proxy-configmap
+            items:
+              - key: nginx.conf
+                path: default.conf
 status: {}

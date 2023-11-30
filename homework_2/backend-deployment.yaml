@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose --file compose.yaml convert
+    kompose.cmd: kompose convert
     kompose.version: 1.31.2 (HEAD)
   creationTimestamp: null
   labels:
@@ -17,19 +17,19 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: kompose --file compose.yaml convert
+        kompose.cmd: kompose convert
         kompose.version: 1.31.2 (HEAD)
       creationTimestamp: null
       labels:
-        io.kompose.network/dockerawesome-composemasternginx-golang-postgres-default: "true"
+        io.kompose.network/homework-2-default: "true"
         io.kompose.service: backend
     spec:
       containers:
-        - image: backend
+        - image: ihornesterenko/devops_homework_2:1.0.0
           name: backend
           resources: {}
           volumeMounts:
-            - mountPath: /run/secrets/db-password
+            - mountPath: /run/secrets
               name: db-password
       restartPolicy: Always
       volumes:

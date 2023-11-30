@@ -1,0 +1,19 @@
+apiVersion: v1
+data:
+  nginx.conf: |
+    server {
+        listen       80;
+        server_name  localhost;
+        location / {
+            proxy_pass          http://backend:8000;
+            proxy_http_version  1.1;
+        }
+
+    }
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2023-11-30T09:09:37Z"
+  name: proxy-configmap
+  namespace: default
+  resourceVersion: "10010"
+  uid: 3cb5e26f-a6ff-4d75-9cea-b9267e2ecf11
